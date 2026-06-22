@@ -1,0 +1,9 @@
+(* sml-xml: public library basis.
+
+   Consumers reference this file from their own .mlb files; it brings in the
+   vendored sml-unicode without a `local` wrapper so Xml and Unicode are both
+   visible alongside it. *)
+
+$(SML_LIB)/basis/basis.mlb
+
+sources.mlb

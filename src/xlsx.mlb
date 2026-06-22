@@ -1,0 +1,11 @@
+(* MLB for the sml-xlsx library: the vendored sml-zip (which itself vendors
+ * sml-deflate + sml-codec) and sml-xml (which vendors sml-unicode), then the
+ * xlsx sources.
+ *
+ * The dependency .mlb files are brought in WITHOUT a `local` wrapper so that
+ * consumers (tests, examples) can use Zip / Xml alongside Xlsx. *)
+$(SML_LIB)/basis/basis.mlb
+../lib/github.com/sjqtentacles/sml-zip/sml-zip.mlb
+../lib/github.com/sjqtentacles/sml-xml/sml-xml.mlb
+xlsx.sig
+xlsx.sml

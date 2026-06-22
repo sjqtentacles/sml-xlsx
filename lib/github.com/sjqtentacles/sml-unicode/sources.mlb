@@ -1,0 +1,9 @@
+(* Source files for the sml-unicode library, in dependency order.
+   Flat MLB (portable subset) so MLton uses it directly and tools/polybuild
+   can expand it for Poly/ML. *)
+
+$(SML_LIB)/basis/basis.mlb
+
+data.sml
+unicode.sig
+unicode.sml

@@ -1,0 +1,9 @@
+(* Source files for sml-zip, in dependency order. Vendors sml-deflate (which
+ * itself vendors sml-codec for CRC-32). *)
+
+$(SML_LIB)/basis/basis.mlb
+
+../sml-deflate/sources.mlb
+
+zip.sig
+zip.sml

@@ -1,0 +1,9 @@
+package github.com/sjqtentacles/sml-xlsx
+
+require {
+  github.com/sjqtentacles/sml-zip
+  github.com/sjqtentacles/sml-xml
+  github.com/sjqtentacles/sml-deflate
+  github.com/sjqtentacles/sml-codec
+  github.com/sjqtentacles/sml-unicode
+}

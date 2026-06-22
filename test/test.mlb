@@ -1,0 +1,13 @@
+(* Test executable basis: the xlsx library (which pulls in the vendored
+ * sml-zip + sml-xml and their transitive deps) plus the harness, the shared
+ * sample, the suites, and the runner. *)
+$(SML_LIB)/basis/basis.mlb
+../src/xlsx.mlb
+harness.sml
+support.sml
+sample.sml
+test_golden.sml
+test_roundtrip.sml
+test_read.sml
+entry.sml
+main.sml

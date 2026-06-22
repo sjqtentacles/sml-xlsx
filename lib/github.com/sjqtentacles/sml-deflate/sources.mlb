@@ -1,0 +1,12 @@
+(* Source files for sml-deflate. Vendors sml-codec (for CRC-32). *)
+
+$(SML_LIB)/basis/basis.mlb
+
+../sml-codec/sources.mlb
+
+inflate.sig
+inflate.sml
+deflate.sig
+deflate.sml
+zlib.sig
+zlib.sml

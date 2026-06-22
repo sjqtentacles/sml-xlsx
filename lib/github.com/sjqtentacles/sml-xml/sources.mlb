@@ -1,0 +1,9 @@
+(* Source files for sml-xml, in dependency order. Vendors sml-unicode (used to
+ * encode numeric character references as UTF-8). *)
+
+$(SML_LIB)/basis/basis.mlb
+
+../sml-unicode/sources.mlb
+
+xml.sig
+xml.sml

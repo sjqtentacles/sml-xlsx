@@ -1,0 +1,9 @@
+(* sml-zip: public library basis.
+
+   Consumers reference this file from their own .mlb files; it brings in the
+   vendored sml-deflate + sml-codec without a `local` wrapper so Zip, Inflate,
+   Deflate and Crc32 are all visible alongside it. *)
+
+$(SML_LIB)/basis/basis.mlb
+
+sources.mlb

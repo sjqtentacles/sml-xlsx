@@ -1,0 +1,4 @@
+(* Example basis: the xlsx library plus the demo program. *)
+$(SML_LIB)/basis/basis.mlb
+../src/xlsx.mlb
+demo.sml
