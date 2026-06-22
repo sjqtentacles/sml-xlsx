@@ -1,5 +1,7 @@
 # sml-xlsx
 
+[![CI](https://github.com/sjqtentacles/sml-xlsx/actions/workflows/ci.yml/badge.svg)](https://github.com/sjqtentacles/sml-xlsx/actions/workflows/ci.yml)
+
 Pure Standard ML reader/writer for **`.xlsx` spreadsheets** (Office Open XML) —
 an `.xlsx` is a ZIP container of XML parts, so this library is a thin, pure
 layer over [`sml-zip`](https://github.com/sjqtentacles/sml-zip) (the PK ZIP
@@ -28,6 +30,23 @@ val v    = Xlsx.getCell sh "B2"        (* SOME (Xlsx.Num 1.5) *)
 
 The bytes are a genuine `.xlsx`: `unzip -t` passes and tools like Excel /
 LibreOffice / `openpyxl` open them.
+
+## Install
+
+Using [smlpkg](https://github.com/diku-dk/smlpkg):
+
+```sh
+smlpkg add github.com/sjqtentacles/sml-xlsx
+smlpkg sync
+```
+
+Then add the library to your MLB file (it pulls in the vendored `sml-zip` and
+`sml-xml` automatically):
+
+```
+$(SML_LIB)/basis/basis.mlb
+lib/github.com/sjqtentacles/sml-xlsx/src/xlsx.mlb
+```
 
 ## Features
 
