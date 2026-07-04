@@ -42,7 +42,7 @@ test: $(BIN)/test-mlton
 # its own. Load the vendored CRC-32 + inflate + deflate + zip, then unicode +
 # xml, then the xlsx sources, then the test driver -- all in dependency order.
 poly test-poly:
-	printf 'use "$(CODECDIR)/crc32.sig";\nuse "$(CODECDIR)/crc32.sml";\nuse "$(DEFDIR)/inflate.sig";\nuse "$(DEFDIR)/inflate.sml";\nuse "$(DEFDIR)/deflate.sig";\nuse "$(DEFDIR)/deflate.sml";\nuse "$(ZIPDIR)/zip.sig";\nuse "$(ZIPDIR)/zip.sml";\nuse "$(UNIDIR)/data.sml";\nuse "$(UNIDIR)/unicode.sig";\nuse "$(UNIDIR)/unicode.sml";\nuse "$(XMLDIR)/xml.sig";\nuse "$(XMLDIR)/xml.sml";\nuse "src/xlsx.sig";\nuse "src/xlsx.sml";\nuse "test/harness.sml";\nuse "test/support.sml";\nuse "test/sample.sml";\nuse "test/test_golden.sml";\nuse "test/test_roundtrip.sml";\nuse "test/test_read.sml";\nuse "test/entry.sml";\nuse "test/main.sml";\n' | $(POLY) -q --error-exit
+	printf 'use "$(CODECDIR)/crc32.sig";\nuse "$(CODECDIR)/crc32.sml";\nuse "$(DEFDIR)/inflate.sig";\nuse "$(DEFDIR)/inflate.sml";\nuse "$(DEFDIR)/deflate.sig";\nuse "$(DEFDIR)/deflate.sml";\nuse "$(ZIPDIR)/zip.sig";\nuse "$(ZIPDIR)/zip.sml";\nuse "$(UNIDIR)/data.sml";\nuse "$(UNIDIR)/unicode.sig";\nuse "$(UNIDIR)/unicode.sml";\nuse "$(XMLDIR)/xml.sig";\nuse "$(XMLDIR)/xml.sml";\nuse "src/xlsx.sig";\nuse "src/xlsx.sml";\nuse "test/harness.sml";\nuse "test/support.sml";\nuse "test/sample.sml";\nuse "test/test_golden.sml";\nuse "test/test_roundtrip.sml";\nuse "test/test_read.sml";\nuse "test/test_malformed.sml";\nuse "test/entry.sml";\nuse "test/main.sml";\n' | $(POLY) -q --error-exit
 
 all-tests: test test-poly
 

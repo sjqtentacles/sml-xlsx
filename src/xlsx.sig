@@ -63,7 +63,12 @@ sig
   val toBytes : workbook -> Word8Vector.vector
 
   (* Parse the bytes of an `.xlsx` file back into the workbook model. Raises
-     `Xlsx` (or `Zip` / `Xml` from the vendored libraries) on malformed input. *)
+     `Xlsx` (or `Zip` / `Xml` from the vendored libraries) on malformed input.
+     Untrusted shared-string references are bounds-checked: a cell's pool index
+     that is non-numeric, negative, larger than a 32-bit `int`, or out of the
+     shared-string table's bounds degrades to the empty string rather than
+     raising `Overflow` / `Subscript`, so a hostile or corrupt file cannot crash
+     the reader and the result is identical under MLton and Poly/ML. *)
   val fromBytes : Word8Vector.vector -> workbook
 
   (* --- accessors --- *)

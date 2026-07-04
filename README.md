@@ -56,7 +56,9 @@ lib/github.com/sjqtentacles/sml-xlsx/src/xlsx.mlb
   produced with the vendored `Xml.render`; the parts are packaged with the
   vendored `Zip`.
 - **Read** an `.xlsx`: unzip with `Zip`, parse parts with `Xml.parse`, and
-  recover sheet names, cell references, and cell values.
+  recover sheet names, cell references, and cell values. Untrusted shared-string
+  indices are bounds-checked, so a corrupt or hostile file degrades gracefully
+  instead of crashing the reader (and does so identically on both compilers).
 - **Cell value variants**: `Num` (numbers), `Str` (pooled in the shared-string
   table), `Bool`, and `Formula` (formula text plus a cached `Num` / `Str` /
   `Bool` result — there is no evaluation engine).
@@ -116,14 +118,17 @@ make all-tests   # both compilers
 make example     # write bin/demo.xlsx and read it back
 ```
 
-Both compilers report `32 passed, 0 failed`. The suite covers **golden XML**
+Both compilers report `39 passed, 0 failed`. The suite covers **golden XML**
 (the generated `xl/worksheets/sheet1.xml` and `xl/sharedStrings.xml` are
 asserted byte-for-byte against pinned references), write→read **round-trips**
 over every value variant (numbers, escaped strings, shared-string pooling,
 booleans, and number/string/bool formulas across multiple sheets), **write
-determinism** (byte-identical re-encode), and **container** checks (the output
+determinism** (byte-identical re-encode), **container** checks (the output
 is a real ZIP whose members are the expected parts, and malformed input is
-rejected).
+rejected), and **untrusted-input robustness** (a shared-string reference whose
+pool index is huge — beyond a 32-bit `int` — out of the table's bounds, or
+non-numeric degrades to the empty string instead of crashing the reader, so
+reading stays safe and byte-identical across MLton and Poly/ML).
 
 ## Example
 

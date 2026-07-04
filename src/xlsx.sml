@@ -54,8 +54,13 @@ struct
     end
 
   fun rowNumOf r =
-    case Int.fromString (#2 (splitRef r)) of
-        SOME x => x
+    (* Parse the row number via `IntInf` (never overflows) and bound to the
+       portable signed-32-bit range, so a huge row in a malformed reference is
+       rejected identically on MLton and Poly/ML rather than raising `Overflow`
+       under MLton's 32-bit `int`. *)
+    case IntInf.fromString (#2 (splitRef r)) of
+        SOME n => if n >= 0 andalso n <= 2147483647 then IntInf.toInt n
+                  else raise Xlsx ("cell row out of range: " ^ r)
       | NONE => raise Xlsx ("malformed cell reference: " ^ r)
 
   (* Deterministic decimal formatting independent of the compiler's
@@ -306,6 +311,31 @@ struct
         SOME r => r
       | NONE => raise Xlsx ("malformed number: " ^ vs)
 
+  (* Resolve a shared-string reference from an *untrusted* worksheet cell. The
+     index text comes straight from the file, so it may be non-numeric, negative,
+     larger than a 32-bit `int` can hold (which would overflow `Int.fromString`
+     on MLton while succeeding on Poly/ML), or an in-range integer that points
+     past the end of the table. Parse with `IntInf.fromString` (never overflows)
+     and bounds-check against a fixed 32-bit literal -- `Int.maxInt` is `NONE`
+     under Poly/ML -- before narrowing to `int`; then bounds-check the vector.
+     Any malformed or out-of-range reference degrades to the documented
+     empty-string fallback (matching the `NONE => Str ""` case above), so the
+     reader never raises `Overflow` / `Option` / `Subscript` and behaves
+     identically across compilers. *)
+  fun sstLookup (sst, vs) =
+    let
+      val maxInt32 : IntInf.int = 2147483647
+    in
+      case IntInf.fromString vs of
+          SOME i =>
+            if i >= 0 andalso i <= maxInt32 then
+              let val idx = IntInf.toInt i in
+                if idx < Vector.length sst then Vector.sub (sst, idx) else ""
+              end
+            else ""
+        | NONE => ""
+    end
+
   fun parseWorksheet (sst, s) =
     let
       val root = parseDoc s
@@ -320,7 +350,7 @@ struct
             case t of
                 SOME "s" =>
                   (case vOpt of
-                       SOME vs => Str (Vector.sub (sst, valOf (Int.fromString vs)))
+                       SOME vs => Str (sstLookup (sst, vs))
                      | NONE => Str "")
               | SOME "b" => Bool (vOpt = SOME "1")
               | SOME "str" => Str (Option.getOpt (vOpt, ""))

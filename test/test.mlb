@@ -9,5 +9,6 @@ sample.sml
 test_golden.sml
 test_roundtrip.sml
 test_read.sml
+test_malformed.sml
 entry.sml
 main.sml

@@ -5,6 +5,7 @@ fun runAllSuites () =
   ; GoldenTests.run ()
   ; RoundtripTests.run ()
   ; ReadTests.run ()
+  ; MalformedTests.run ()
   ; Harness.run () )
 
 fun main () =
